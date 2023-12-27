@@ -14,7 +14,7 @@ const Header: FC<HomeProps> = ({ isLoggedIn, isDashboard }) => {
   const router = useRouter();
 
   return (
-    <div className="max-w-7xl mx-auto flex py-10 justify-between items-center">
+    <div className="max-w-7xl mx-auto flex py-10 justify-between items-center px-3">
       <div className="flex items-center">
         <Link href="/">
           <img src="/favicon.png" alt="TextQuest Logo" className="w-16" />
