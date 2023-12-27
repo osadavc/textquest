@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { signIn, signOut } from "next-auth/react";
 import { FC } from "react";
 import { useRouter } from "next/router";
-import { MdOutlineLogout } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
 import Link from "next/link";
 
 interface HomeProps {
@@ -20,7 +20,9 @@ const Header: FC<HomeProps> = ({ isLoggedIn, isDashboard }) => {
           <img src="/favicon.png" alt="TextQuest Logo" className="w-16" />
         </Link>
         {!isDashboard && (
-          <h1 className="font-black text-3xl ml-5">TextQuest</h1>
+          <h1 className="font-black text-3xl ml-5">
+            Text<span className="text-customPrimary">Quest</span>
+          </h1>
         )}
       </div>
 
@@ -34,11 +36,12 @@ const Header: FC<HomeProps> = ({ isLoggedIn, isDashboard }) => {
               });
             }}
           >
-            <MdOutlineLogout className="text-2xl font-bold" />
+            <CiLogout className="text-xl" />
           </Button>
         ) : (
           <Button
-            variant="outline"
+            variant="ghost"
+            className="bg-customPrimary text-white hover:bg-customPrimary hover:text-white"
             onClick={() => {
               if (isLoggedIn) {
                 router.push("/dashboard");
@@ -49,7 +52,7 @@ const Header: FC<HomeProps> = ({ isLoggedIn, isDashboard }) => {
               }
             }}
           >
-            Test Your Knowledge
+            Let&apos;s Go
           </Button>
         )}
       </div>
