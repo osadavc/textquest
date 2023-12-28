@@ -5,6 +5,9 @@ import { NextPage } from "next";
 import { Textbook } from "@prisma/client";
 import Header from "@/components/Common/Header";
 import dynamic from "next/dynamic";
+import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { useRouter } from "next/router";
 
 interface SingleDashboardPage {
   textbook: Textbook;
@@ -18,14 +21,26 @@ const TextbookPreview = dynamic(
 );
 
 const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
+  const router = useRouter();
+
   return (
     <div>
       <Header isDashboard isLoggedIn />
       {/* <TextbookPreview fileURL={textbook.fileURL} /> */}
 
       <div className="px-3 max-w-7xl mx-auto">
-        <h3 className="font-bold text-2xl">{textbook.name}</h3>
+        <button
+          className="flex items-center hover:text-customPrimary transition-colors"
+          onClick={router.back}
+        >
+          <IoIosArrowRoundBack className="text-xl" />{" "}
+          <span className="ml-1">Back</span>
+        </button>
+
+        <h3 className="font-bold text-2xl mt-5">{textbook.name}</h3>
         <p className="mt-2 text-lg">69 Pages</p>
+
+        <NoQuestions />
       </div>
     </div>
   );
