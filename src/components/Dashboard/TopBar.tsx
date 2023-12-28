@@ -11,12 +11,20 @@ import {
 import { UploadButton } from "@/utils/uploadthing";
 import { Input } from "../ui/input";
 import { useState } from "react";
+import axios from "axios";
 
 const TopBar = () => {
   const [file, setFile] = useState({
     name: "",
     url: "",
   });
+
+  const uploadTextBook = async () => {
+    const data = await axios.post("/textbook", {
+      name: file.name,
+      fileURL: file.url,
+    });
+  };
 
   return (
     <div className="flex justify-between items-center px-3">
@@ -45,7 +53,7 @@ const TopBar = () => {
           </DialogHeader>
 
           <div className="mt-2">
-            <p className="mb-2 text-gray-600">Upload PDF File</p>
+            <p className="mb-2 text-gray-600">Select PDF File</p>
 
             {file.name ? (
               <p className="text-sm text-gray-500">File Already Uploaded</p>
