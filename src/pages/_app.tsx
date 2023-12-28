@@ -16,7 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>TextQuest</title>
-        <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
       </Head>
       <Component {...pageProps} />
       <Toaster />
