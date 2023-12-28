@@ -7,13 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "../ui/dialog";
 import { UploadButton } from "@/utils/uploadthing";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import useTextbookStore from "@/stores/textbookStore";
 
 const TopBar = () => {
   const [file, setFile] = useState({
@@ -23,14 +23,20 @@ const TopBar = () => {
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const { addNewTextbook } = useTextbookStore();
+
   const uploadTextBook = async () => {
     try {
       setSaving(true);
 
-      const data = await axios.post("/api/textbooks", {
+      const {
+        data: { data },
+      } = await axios.post("/api/textbooks", {
         name: file.name,
         fileURL: file.url,
       });
+
+      addNewTextbook(data);
 
       setFile({
         name: "",

@@ -3,6 +3,7 @@
     "NEXTAUTH",
     "nprogress",
     "sonner",
-    "Uploadthing"
+    "Uploadthing",
+    "zustand"
   ]
 }
