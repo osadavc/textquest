@@ -1,8 +1,7 @@
-import { getToken } from "next-auth/jwt";
-
-import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
 import { generateComponents } from "@uploadthing/react";
 import { generateReactHelpers } from "@uploadthing/react/hooks";
+import { getToken } from "next-auth/jwt";
+import { createUploadthing, type FileRouter } from "uploadthing/next-legacy";
 
 const f = createUploadthing();
 

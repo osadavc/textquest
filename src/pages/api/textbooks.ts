@@ -1,5 +1,5 @@
-import prisma from "@/utils/prisma";
 import { NextApiResponse } from "next";
+
 import { createRouter } from "next-connect";
 
 import {
@@ -8,6 +8,7 @@ import {
   onNoMatch,
   NextApiRequestWithUser,
 } from "@/utils/apiUtils";
+import prisma from "@/utils/prisma";
 
 const router = createRouter<NextApiRequestWithUser, NextApiResponse>();
 

@@ -1,8 +1,10 @@
+import { GetServerSideProps } from "next";
+import { NextPage } from "next";
+
+import { getSession } from "next-auth/react";
+
 import Header from "@/components/Common/Header";
 import HeroSection from "@/components/Home/HeroSection";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
-import { NextPage } from "next";
 
 interface HomeProps {
   isLoggedIn: boolean;

@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { signIn, signOut } from "next-auth/react";
-import { FC } from "react";
-import { useRouter } from "next/router";
-import { CiLogout } from "react-icons/ci";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { FC } from "react";
+
+import { signIn, signOut } from "next-auth/react";
+import { CiLogout } from "react-icons/ci";
+
+import { Button } from "@/components/ui/button";
 
 interface HomeProps {
   isLoggedIn: boolean;

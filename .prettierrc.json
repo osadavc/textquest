@@ -1,0 +1,15 @@
+{
+  "singleQuote": false,
+  "semi": true,
+  "importOrder": [
+    "^(next/(.*)$)|^(next$)|^(react/(.*)$)|^(react$)",
+    "<THIRD_PARTY_MODULES>",
+    "next-seo.config",
+    "^@/components/(.*)$",
+    "^@/utils/(.*)$|^store",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}

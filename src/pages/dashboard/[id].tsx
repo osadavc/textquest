@@ -1,13 +1,16 @@
-import prisma from "@/utils/prisma";
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 import { NextPage } from "next";
-import { Textbook } from "@prisma/client";
-import Header from "@/components/Common/Header";
 import dynamic from "next/dynamic";
-import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
-import { IoIosArrowRoundBack } from "react-icons/io";
 import { useRouter } from "next/router";
+
+import { Textbook } from "@prisma/client";
+import { getSession } from "next-auth/react";
+import { IoIosArrowRoundBack } from "react-icons/io";
+
+import Header from "@/components/Common/Header";
+import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
+
+import prisma from "@/utils/prisma";
 
 interface SingleDashboardPage {
   textbook: Textbook;
@@ -17,7 +20,7 @@ const TextbookPreview = dynamic(
   () => import("@/components/Dashboard/SingleDashboard/TextbookPreview"),
   {
     ssr: false,
-  }
+  },
 );
 
 const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {

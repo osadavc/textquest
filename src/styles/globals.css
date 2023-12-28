@@ -17,7 +17,9 @@ body {
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px #4a79fe, 0 0 5px #fd422f !important;
+  box-shadow:
+    0 0 10px #4a79fe,
+    0 0 5px #fd422f !important;
 }
 
 @layer base {

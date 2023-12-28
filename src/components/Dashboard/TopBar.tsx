@@ -1,5 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+import axios from "axios";
 import { CiInboxOut } from "react-icons/ci";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+
+import { UploadButton } from "@/utils/uploadthing";
+
+import useTextbookStore from "@/stores/textbookStore";
+
 import {
   Dialog,
   DialogContent,
@@ -8,12 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { UploadButton } from "@/utils/uploadthing";
 import { Input } from "../ui/input";
-import { useState } from "react";
-import axios from "axios";
-import { toast } from "sonner";
-import useTextbookStore from "@/stores/textbookStore";
 
 const TopBar = () => {
   const [file, setFile] = useState({

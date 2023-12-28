@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
 import { getToken } from "next-auth/jwt";
 
 export interface NextApiRequestWithUser extends NextApiRequest {
@@ -12,7 +13,7 @@ export interface User {
 export const auth = async (
   req: NextApiRequestWithUser,
   res: NextApiResponse,
-  next: Function
+  next: Function,
 ) => {
   const token = await getToken({
     req,

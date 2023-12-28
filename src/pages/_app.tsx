@@ -1,11 +1,13 @@
-import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Router from "next/router";
 
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
-import Router from "next/router";
+
 import { Toaster } from "@/components/ui/sonner";
+
+import "@/styles/globals.css";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
