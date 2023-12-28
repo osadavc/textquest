@@ -1,7 +1,7 @@
-import { GetServerSideProps } from "next";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import { Textbook } from "@prisma/client";
 import { getSession } from "next-auth/react";
@@ -9,6 +9,15 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 
 import Header from "@/components/Common/Header";
 import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import prisma from "@/utils/prisma";
 
@@ -25,11 +34,11 @@ const TextbookPreview = dynamic(
 
 const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
   const router = useRouter();
+  const [pageNumber, setPageNumber] = useState(1);
 
   return (
     <div>
       <Header isDashboard isLoggedIn />
-      {/* <TextbookPreview fileURL={textbook.fileURL} /> */}
 
       <div className="px-3 max-w-7xl mx-auto">
         <button
@@ -41,7 +50,36 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         </button>
 
         <h3 className="font-bold text-2xl mt-5">{textbook.name}</h3>
-        <p className="mt-2 text-lg">69 Pages</p>
+        {/* TODO: Fix the page count */}
+        {/* <p className="mt-2 text-lg">69 Pages</p> */}
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button className="mt-3" variant="secondary">
+              Select Page
+            </Button>
+          </SheetTrigger>
+
+          <SheetContent className="min-w-[500px]">
+            <SheetHeader>
+              <SheetTitle className="font-bold text-2xl">
+                Select a Page
+              </SheetTitle>
+              <SheetDescription>
+                Select a specific page from the uploaded PDF document to
+                generate questions
+              </SheetDescription>
+            </SheetHeader>
+
+            <TextbookPreview
+              fileURL={textbook.fileURL}
+              // pageCount={pageCount}
+              pageNumber={pageNumber}
+              // setPageCount={setPageCount}
+              setPageNumber={setPageNumber}
+            />
+          </SheetContent>
+        </Sheet>
 
         <NoQuestions />
       </div>
