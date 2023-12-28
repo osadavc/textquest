@@ -563,7 +563,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-pdf@^6.2.2":
+"@types/react-pdf@^6.2.0":
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/@types/react-pdf/-/react-pdf-6.2.0.tgz#e99d498f8f76704d15e4553197c89e254cc17278"
   integrity sha512-OSCYmrfaJvpXkM5V4seUMAhUDOAOqbGQf9kwv14INyTf7AjDs2ukfkkQrLWRQ8OjWrDklbXYWh5l7pT7l0N76g==

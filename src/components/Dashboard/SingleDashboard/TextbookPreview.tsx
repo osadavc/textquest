@@ -17,18 +17,20 @@ interface TextbookPreview {
   fileURL: string;
   pageNumber: number;
   setPageNumber: Dispatch<SetStateAction<number>>;
+  closeDialog: () => void;
 }
 
 const TextbookPreview: FC<TextbookPreview> = ({
   fileURL,
   pageNumber,
   setPageNumber,
+  closeDialog,
 }) => {
   const [numPages, setNumPages] = useState<number>();
 
-  const onDocumentLoadSuccess = ({
+  const onDocumentLoadSuccess = async ({
     numPages: nextNumPages,
-  }: PDFDocumentProxy): void => {
+  }: PDFDocumentProxy) => {
     setNumPages(nextNumPages);
   };
 
@@ -76,7 +78,7 @@ const TextbookPreview: FC<TextbookPreview> = ({
       </Document>
 
       <div className="flex-grow" />
-      <Button>Choose Page</Button>
+      <Button onClick={closeDialog}>Choose Page</Button>
     </div>
   );
 };

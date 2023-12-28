@@ -34,7 +34,11 @@ const TextbookPreview = dynamic(
 
 const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
   const router = useRouter();
+
   const [pageNumber, setPageNumber] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [content, setContent] = useState("");
+  const [selected, setSelected] = useState(false);
 
   return (
     <div>
@@ -53,12 +57,18 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         {/* TODO: Fix the page count */}
         {/* <p className="mt-2 text-lg">69 Pages</p> */}
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className="mt-3" variant="secondary">
-              Select Page
-            </Button>
-          </SheetTrigger>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <div className="flex items-center">
+            <SheetTrigger asChild>
+              <Button className="mt-3" variant="secondary">
+                Select Page
+              </Button>
+            </SheetTrigger>
+
+            {selected && (
+              <p className="mt-2 ml-3">Page {pageNumber} Selected</p>
+            )}
+          </div>
 
           <SheetContent className="min-w-[500px]">
             <SheetHeader>
@@ -77,6 +87,10 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
               pageNumber={pageNumber}
               // setPageCount={setPageCount}
               setPageNumber={setPageNumber}
+              closeDialog={() => {
+                setSelected(true);
+                setOpen(false);
+              }}
             />
           </SheetContent>
         </Sheet>
