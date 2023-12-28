@@ -5,6 +5,7 @@ import Head from "next/head";
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
 import Router from "next/router";
+import { Toaster } from "@/components/ui/sonner";
 
 Router.events.on("routeChangeStart", nProgress.start);
 Router.events.on("routeChangeError", nProgress.done);
@@ -18,6 +19,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
       </Head>
       <Component {...pageProps} />
+      <Toaster />
     </>
   );
 };

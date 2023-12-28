@@ -7,30 +7,50 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "../ui/dialog";
 import { UploadButton } from "@/utils/uploadthing";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const TopBar = () => {
   const [file, setFile] = useState({
     name: "",
     url: "",
   });
+  const [saving, setSaving] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const uploadTextBook = async () => {
-    const data = await axios.post("/textbook", {
-      name: file.name,
-      fileURL: file.url,
-    });
+    try {
+      setSaving(true);
+
+      const data = await axios.post("/api/textbooks", {
+        name: file.name,
+        fileURL: file.url,
+      });
+
+      setFile({
+        name: "",
+        url: "",
+      });
+
+      toast.success("New Textbook Uploaded");
+      setOpen(false);
+    } catch (error) {
+      toast.error("Error Occurred, Please Try Again");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div className="flex justify-between items-center px-3">
       <h3 className="font-bold text-2xl">Uploaded Textbooks</h3>
 
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button
             variant="ghost"
@@ -96,8 +116,10 @@ const TopBar = () => {
           <Button
             variant="ghost"
             className="bg-customPrimary text-white hover:bg-customPrimary hover:text-white mt-4"
+            onClick={uploadTextBook}
+            disabled={saving}
           >
-            <span>Done</span>
+            <span>{saving ? "Saving" : "Save"}</span>
           </Button>
         </DialogContent>
       </Dialog>

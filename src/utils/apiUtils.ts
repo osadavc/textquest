@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 export interface NextApiRequestWithUser extends NextApiRequest {
   userId: string;
@@ -15,16 +14,19 @@ export const auth = async (
   res: NextApiResponse,
   next: Function
 ) => {
-  const session = await getSession({ req });
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
 
-  if (!session?.id) {
+  if (!token?.id) {
     return res.status(401).json({
       status: 401,
       error: "Unauthorized",
     });
   }
 
-  req.userId = session.id;
+  req.userId = token.id;
   return next();
 };
 
