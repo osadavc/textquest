@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 
 const NoQuestions = () => {
   return (
-    <Card className="w-full flex flex-col justify-center items-center mt-20 py-16">
+    <Card className="w-full flex flex-col justify-center items-center mt-16 py-16">
       <CiFolderOn className="text-6xl text-gray-600" />
       <h4 className="mt-6 text-xl font-medium capitalize">
         No Questions are created

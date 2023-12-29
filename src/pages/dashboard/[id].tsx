@@ -10,6 +10,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import Header from "@/components/Common/Header";
 import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Sheet,
   SheetContent,
@@ -37,7 +38,6 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
 
   const [pageNumber, setPageNumber] = useState(1);
   const [open, setOpen] = useState(false);
-  const [content, setContent] = useState("");
   const [selected, setSelected] = useState(false);
 
   return (
@@ -95,7 +95,13 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        <NoQuestions />
+        {selected ? (
+          <Card className="w-full flex flex-col items-center mt-16 py-8">
+            <h3 className="font-bold text-xl">Generate Questions</h3>
+          </Card>
+        ) : (
+          <NoQuestions />
+        )}
       </div>
     </div>
   );
