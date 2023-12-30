@@ -13,6 +13,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const GenerateQuestion = () => {
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
+  // Placeholder for now
   const [questionType, setQuestionType] = useState("mcq");
 
   return (
@@ -87,7 +88,15 @@ const GenerateQuestion = () => {
             <AccordionTrigger className="font-bold">
               Exceptions from the text
             </AccordionTrigger>
-            <AccordionContent className="mt-5"></AccordionContent>
+            <AccordionContent className="mt-5">
+              <p>
+                If certain textbook sections should be omitted from question
+                creation, please select them.
+              </p>
+
+
+              
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
 
