@@ -8,9 +8,9 @@ import { getSession } from "next-auth/react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 import Header from "@/components/Common/Header";
+import GenerateQuestion from "@/components/Dashboard/SingleDashboard/GenerateQuestion";
 import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Sheet,
   SheetContent,
@@ -95,13 +95,7 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        {selected ? (
-          <Card className="w-full flex flex-col items-center mt-16 py-8">
-            <h3 className="font-bold text-xl">Generate Questions</h3>
-          </Card>
-        ) : (
-          <NoQuestions />
-        )}
+        {selected ? <GenerateQuestion /> : <NoQuestions />}
       </div>
     </div>
   );
