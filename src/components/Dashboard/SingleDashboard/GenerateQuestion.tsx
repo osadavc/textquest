@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
@@ -94,8 +95,19 @@ const GenerateQuestion = () => {
                 creation, please select them.
               </p>
 
+              <div className="flex items-center mt-5 space-x-3">
+                <Checkbox id="knowledge" />
+                <label htmlFor="knowledge" className="text-sm leading-none">
+                  For more knowledge
+                </label>
+              </div>
 
-              
+              <div className="flex items-center mt-5 space-x-3">
+                <Checkbox id="diagrams" />
+                <label htmlFor="diagrams" className="text-sm leading-none">
+                  Diagrams
+                </label>
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
