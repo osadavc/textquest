@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { FC, useState } from "react";
+
+import axios from "axios";
 
 import {
   Accordion,
@@ -12,10 +14,26 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-const GenerateQuestion = () => {
+interface GenerateQuestion {
+  bookId: string;
+  pageNumber: number;
+}
+
+const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  // Placeholder for now
+  // TODO: Placeholder
   const [questionType, setQuestionType] = useState("mcq");
+
+  const generateQuestions = async () => {
+    const { data } = await axios.post("/api/questions", {
+      questionType,
+      numberOfQuestions,
+      bookId,
+      pageNumber,
+    });
+
+    console.log(data);
+  };
 
   return (
     <Card className="w-full flex flex-col items-center mt-16 p-8">
@@ -95,6 +113,8 @@ const GenerateQuestion = () => {
                 creation, please select them.
               </p>
 
+              {/* TODO: Hook this up */}
+
               <div className="flex items-center mt-5 space-x-3">
                 <Checkbox id="knowledge" />
                 <label htmlFor="knowledge" className="text-sm leading-none">
@@ -112,7 +132,9 @@ const GenerateQuestion = () => {
           </AccordionItem>
         </Accordion>
 
-        <Button className="mt-8 w-min px-8">Generate</Button>
+        <Button className="mt-8 w-min px-8" onClick={generateQuestions}>
+          Generate
+        </Button>
       </div>
     </Card>
   );

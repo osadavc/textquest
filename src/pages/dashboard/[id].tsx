@@ -95,7 +95,14 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        {selected ? <GenerateQuestion /> : <NoQuestions />}
+        {selected ? (
+          <GenerateQuestion
+            bookId={router.query.id as string}
+            pageNumber={pageNumber}
+          />
+        ) : (
+          <NoQuestions />
+        )}
       </div>
     </div>
   );

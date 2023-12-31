@@ -16,13 +16,12 @@ model User {
 }
 
 model Textbook {
-  id              String     @id @default(cuid())
-  name            String
-  fileURL         String
-  User            User?      @relation(fields: [userId], references: [id])
-  userId          String?
-  gptConversation String?
-  questions       Question[]
+  id        String     @id @default(cuid())
+  name      String
+  fileURL   String
+  User      User?      @relation(fields: [userId], references: [id])
+  userId    String?
+  questions Question[]
 }
 
 model Question {
