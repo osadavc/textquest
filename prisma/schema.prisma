@@ -28,10 +28,7 @@ model Question {
   id                    String       @id @default(cuid())
   questionType          QuestionType
   question              String
-  MCQAnswer1            String
-  MCQAnswer2            String
-  MCQAnswer3            String
-  MCQAnswer4            String
+  mcqAnswers            String[]
   correctMCQAnswerIndex Int
   Textbook              Textbook?    @relation(fields: [textbookId], references: [id])
   textbookId            String?

@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.302.0",
+    "mindsdb-js-sdk": "^2.3.0",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "next-connect": "^1.0.0",
