@@ -30,6 +30,8 @@ model Question {
   question              String
   mcqAnswers            String[]
   correctMCQAnswerIndex Int
+  userMCQAnswerIndex    Int?
+  pageNumber            Int
   Textbook              Textbook?    @relation(fields: [textbookId], references: [id])
   textbookId            String?
 }

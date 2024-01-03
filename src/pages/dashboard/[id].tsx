@@ -3,13 +3,15 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { Textbook } from "@prisma/client";
+import { Question, Textbook } from "@prisma/client";
 import { getSession } from "next-auth/react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
 import Header from "@/components/Common/Header";
 import GenerateQuestion from "@/components/Dashboard/SingleDashboard/GenerateQuestion";
 import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
+import SingleQuestion from "@/components/Dashboard/SingleDashboard/SingleQuestion";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -23,7 +25,9 @@ import {
 import prisma from "@/utils/prisma";
 
 interface SingleDashboardPage {
-  textbook: Textbook;
+  textbook: Textbook & {
+    questions: Question[];
+  };
 }
 
 const TextbookPreview = dynamic(
@@ -95,7 +99,33 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        {selected ? (
+        {textbook.questions.length > 0 ? (
+          <>
+            <div className="space-y-6 my-10">
+              {textbook.questions.map((item, index) => (
+                <SingleQuestion key={item.id} question={item} index={index} />
+              ))}
+            </div>
+
+            {selected ? (
+              <>
+                <GenerateQuestion
+                  bookId={router.query.id as string}
+                  pageNumber={pageNumber}
+                />
+                <div className="mb-10" />
+              </>
+            ) : (
+              <div className="mt-1 text-gray-600 text-center">
+                To generate more questions, select a page by clicking the{" "}
+                <Badge variant="secondary" className="mx-1">
+                  Select Page
+                </Badge>{" "}
+                button
+              </div>
+            )}
+          </>
+        ) : selected ? (
           <GenerateQuestion
             bookId={router.query.id as string}
             pageNumber={pageNumber}
@@ -103,6 +133,8 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         ) : (
           <NoQuestions />
         )}
+
+        <div className="mt-16" />
       </div>
     </div>
   );
@@ -136,6 +168,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const textbook = await prisma.textbook.findUnique({
     where: {
       id,
+    },
+    include: {
+      questions: true,
     },
   });
 

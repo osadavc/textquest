@@ -78,6 +78,7 @@ router.post(async (req, res) => {
         (answer) => answer == item.correct_answer,
       ),
       textbookId: bookId,
+      pageNumber,
     })),
   });
 

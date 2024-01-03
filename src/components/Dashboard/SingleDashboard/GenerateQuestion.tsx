@@ -36,10 +36,10 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   };
 
   return (
-    <Card className="w-full flex flex-col items-center mt-16 p-8">
+    <Card className="w-full flex flex-col items-center p-8">
       <h3 className="font-bold text-xl">Generate Questions</h3>
 
-      <div className="flex flex-col mt-10 w-full">
+      <div className="flex flex-col mt-6 w-full">
         <Accordion
           type="multiple"
           className="w-full"
