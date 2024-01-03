@@ -40,6 +40,10 @@ const TextbookPreview = dynamic(
   },
 );
 
+interface QuestionList {
+  [pageNumber: number]: Question[];
+}
+
 const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
   const router = useRouter();
 
@@ -48,7 +52,9 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
   const [selected, setSelected] = useState(false);
 
   const { replaceQuestions, questions, bookId } = useQuestionStore();
-  const [displayedQuestions, setDisplayedQuestions] = useState<Question[]>([]);
+  const [displayedQuestions, setDisplayedQuestions] = useState<QuestionList>(
+    {},
+  );
 
   useEffect(() => {
     replaceQuestions(textbook.id, textbook.questions);
@@ -56,7 +62,22 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
 
   useEffect(() => {
     if (bookId === textbook.id) {
-      setDisplayedQuestions(questions);
+      const groupedQuestions = questions.reduce(
+        (group: any, question, index) => {
+          if (!!group.id) {
+            group = {};
+          }
+
+          const { pageNumber } = question;
+
+          group[pageNumber] = group[pageNumber] ?? [];
+          group[pageNumber].push({ index, question });
+
+          return group;
+        },
+      );
+
+      setDisplayedQuestions(groupedQuestions);
     }
   }, [bookId, questions, textbook.id]);
 
@@ -85,7 +106,7 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
               </Button>
             </SheetTrigger>
 
-            {displayedQuestions.length > 0 && selected && (
+            {Object.keys(displayedQuestions).length > 0 && selected && (
               <Link href="#generateQuestions">
                 <Button className="mt-3 ml-4" variant="secondary">
                   Jump to Generate Questions
@@ -123,7 +144,7 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        {displayedQuestions.length > 0 ? (
+        {Object.keys(displayedQuestions).length > 0 ? (
           <>
             <div className="space-y-6 my-10">
               {displayedQuestions.map((item, index) => (
