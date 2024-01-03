@@ -14,6 +14,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
+import useQuestionStore from "@/stores/questionsStore";
+
 interface GenerateQuestion {
   bookId: string;
   pageNumber: number;
@@ -24,6 +26,8 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   const [questionType, setQuestionType] = useState("mcq");
   const [loading, setLoading] = useState(false);
 
+  const { addNewQuestions } = useQuestionStore();
+
   const generateQuestions = async () => {
     setLoading(true);
     const { data } = await axios.post("/api/questions", {
@@ -33,12 +37,15 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
       pageNumber,
     });
 
-    console.log(data);
+    addNewQuestions(bookId, data.response);
     setLoading(false);
   };
 
   return (
-    <Card className="w-full flex flex-col items-center p-8">
+    <Card
+      className="w-full flex flex-col items-center p-8"
+      id="generateQuestions"
+    >
       <h3 className="font-bold text-xl">Generate Questions</h3>
 
       <div className="flex flex-col mt-6 w-full">
@@ -68,7 +75,7 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
                 />
                 <Button
                   onClick={() => {
-                    if (numberOfQuestions - 1 >= 1) {
+                    if (numberOfQuestions - 1 >= 2) {
                       setNumberOfQuestions((prev) => prev - 1);
                     }
                   }}

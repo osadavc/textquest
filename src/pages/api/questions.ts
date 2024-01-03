@@ -28,7 +28,7 @@ interface QuestionItem {
 router.post(async (req, res) => {
   const { questionType, numberOfQuestions, bookId, pageNumber } = req.body;
 
-  if (numberOfQuestions > 10 || numberOfQuestions < 1) {
+  if (numberOfQuestions > 10 || numberOfQuestions < 2) {
     throw new Error("Question amount is invalid or not supported yet");
   }
 
@@ -69,18 +69,24 @@ router.post(async (req, res) => {
     answers: shuffleArray(item.answers),
   }));
 
-  const result = await prisma.question.createMany({
-    data: questions.map((item: QuestionItem) => ({
-      questionType: QuestionType.MCQ,
-      question: item.question,
-      mcqAnswers: item.answers,
-      correctMCQAnswerIndex: item.answers.findIndex(
-        (answer) => answer == item.correct_answer,
-      ),
-      textbookId: bookId,
-      pageNumber,
-    })),
-  });
+  console.log(questions);
+
+  const result = await prisma.$transaction(
+    questions.map((item: QuestionItem) =>
+      prisma.question.create({
+        data: {
+          questionType: QuestionType.MCQ,
+          question: item.question,
+          mcqAnswers: item.answers,
+          correctMCQAnswerIndex: item.answers.findIndex(
+            (answer) => answer == item.correct_answer,
+          ),
+          textbookId: bookId,
+          pageNumber,
+        },
+      }),
+    ),
+  );
 
   res.send({
     response: result,

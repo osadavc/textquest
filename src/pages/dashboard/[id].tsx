@@ -1,7 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Question, Textbook } from "@prisma/client";
 import { getSession } from "next-auth/react";
@@ -24,6 +25,8 @@ import {
 
 import prisma from "@/utils/prisma";
 
+import useQuestionStore from "@/stores/questionsStore";
+
 interface SingleDashboardPage {
   textbook: Textbook & {
     questions: Question[];
@@ -43,6 +46,19 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(false);
+
+  const { replaceQuestions, questions, bookId } = useQuestionStore();
+  const [displayedQuestions, setDisplayedQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    replaceQuestions(textbook.id, textbook.questions);
+  }, [replaceQuestions, textbook]);
+
+  useEffect(() => {
+    if (bookId === textbook.id) {
+      setDisplayedQuestions(questions);
+    }
+  }, [bookId, questions, textbook.id]);
 
   return (
     <div>
@@ -68,6 +84,14 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
                 Select Page
               </Button>
             </SheetTrigger>
+
+            {displayedQuestions.length > 0 && selected && (
+              <Link href="#generateQuestions">
+                <Button className="mt-3 ml-4" variant="secondary">
+                  Jump to Generate Questions
+                </Button>
+              </Link>
+            )}
 
             {selected && (
               <p className="mt-2 ml-3">Page {pageNumber} Selected</p>
@@ -99,10 +123,10 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           </SheetContent>
         </Sheet>
 
-        {textbook.questions.length > 0 ? (
+        {displayedQuestions.length > 0 ? (
           <>
             <div className="space-y-6 my-10">
-              {textbook.questions.map((item, index) => (
+              {displayedQuestions.map((item, index) => (
                 <SingleQuestion key={item.id} question={item} index={index} />
               ))}
             </div>
