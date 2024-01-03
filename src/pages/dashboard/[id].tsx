@@ -147,8 +147,22 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         {Object.keys(displayedQuestions).length > 0 ? (
           <>
             <div className="space-y-6 my-10">
-              {displayedQuestions.map((item, index) => (
-                <SingleQuestion key={item.id} question={item} index={index} />
+              {Object.keys(displayedQuestions).map((page: string) => (
+                <div key={page}>
+                  <h3 className="font-semibold text-xl">Page {page}</h3>
+
+                  <div className="space-y-6 mt-2">
+                    {displayedQuestions[parseInt(page.toString())].map(
+                      (item: any) => (
+                        <SingleQuestion
+                          key={item.index}
+                          question={item}
+                          index={item.index}
+                        />
+                      ),
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
 

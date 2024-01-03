@@ -3,11 +3,14 @@ import { FC, useState } from "react";
 import { Question } from "@prisma/client";
 
 interface SingleQuestion {
-  question: Question;
+  question: { question: Question };
   index: number;
 }
 
-const SingleQuestion: FC<SingleQuestion> = ({ question, index }) => {
+const SingleQuestion: FC<SingleQuestion> = ({
+  question: { question },
+  index,
+}) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   return (
