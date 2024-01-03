@@ -35,7 +35,7 @@ const TextbookPreview: FC<TextbookPreview> = ({
   };
 
   return (
-    <div className="mt-10 flex flex-col h-[90%]">
+    <div className="mt-10 flex flex-col">
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
@@ -77,8 +77,9 @@ const TextbookPreview: FC<TextbookPreview> = ({
         />
       </Document>
 
-      <div className="flex-grow" />
-      <Button onClick={closeDialog}>Choose Page</Button>
+      <Button onClick={closeDialog} className="absolute bottom-10 w-[90%]">
+        Choose Page
+      </Button>
     </div>
   );
 };

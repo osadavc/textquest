@@ -21,10 +21,11 @@ interface GenerateQuestion {
 
 const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  // TODO: Placeholder
   const [questionType, setQuestionType] = useState("mcq");
+  const [loading, setLoading] = useState(false);
 
   const generateQuestions = async () => {
+    setLoading(true);
     const { data } = await axios.post("/api/questions", {
       questionType,
       numberOfQuestions,
@@ -33,6 +34,7 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
     });
 
     console.log(data);
+    setLoading(false);
   };
 
   return (
@@ -132,8 +134,12 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
           </AccordionItem>
         </Accordion>
 
-        <Button className="mt-8 w-min px-8" onClick={generateQuestions}>
-          Generate
+        <Button
+          className="mt-8 w-min px-8"
+          onClick={generateQuestions}
+          disabled={loading}
+        >
+          {loading ? "Generating ..." : "Generate"}
         </Button>
       </div>
     </Card>

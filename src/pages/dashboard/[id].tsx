@@ -126,10 +126,13 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
             )}
           </>
         ) : selected ? (
-          <GenerateQuestion
-            bookId={router.query.id as string}
-            pageNumber={pageNumber}
-          />
+          <>
+            <div className="mt-10" />
+            <GenerateQuestion
+              bookId={router.query.id as string}
+              pageNumber={pageNumber}
+            />
+          </>
         ) : (
           <NoQuestions />
         )}
