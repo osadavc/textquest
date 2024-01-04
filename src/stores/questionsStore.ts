@@ -17,9 +17,6 @@ const useQuestionStore = create<useQuestionsStore>((set) => ({
       questions,
     })),
   addNewQuestions: (bookId, questions) => {
-    console.log(questions);
-    console.log("break");
-
     set((state) => ({
       questions: [...state.questions, ...questions],
       bookId,

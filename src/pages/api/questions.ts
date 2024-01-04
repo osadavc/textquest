@@ -60,8 +60,6 @@ router.post(async (req, res) => {
     .map((item) => item.question)
     .join(", ");
 
-  console.log(samePageQuestions);
-
   const pageContent = await pdf.getText(textbook.fileURL, pageNumber);
 
   await mindsdbConnect();
