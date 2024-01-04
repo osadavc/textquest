@@ -11,13 +11,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import Header from "@/components/Common/Header";
 import GenerateQuestion from "@/components/Dashboard/SingleDashboard/GenerateQuestion";
 import NoQuestions from "@/components/Dashboard/SingleDashboard/NoQuestions";
-import SingleQuestion from "@/components/Dashboard/SingleDashboard/SingleQuestion";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import QuestionListComp from "@/components/Dashboard/SingleDashboard/QuestionList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -100,7 +94,9 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           <span className="ml-1">Back</span>
         </button>
 
-        <h3 className="font-bold text-2xl mt-5">{textbook.name}</h3>
+        <h3 className="font-bold text-2xl mt-5 whitespace-break-spaces break-words">
+          {textbook.name}
+        </h3>
         {/* TODO: Fix the page count */}
         {/* <p className="mt-2 text-lg">69 Pages</p> */}
 
@@ -152,33 +148,7 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
 
         {Object.keys(displayedQuestions).length > 0 ? (
           <>
-            <Accordion
-              type="multiple"
-              className="space-y-6 my-10"
-              defaultValue={[Object.keys(displayedQuestions)[0]]}
-            >
-              {Object.keys(displayedQuestions).map((page: string) => (
-                <AccordionItem value={page} key={page}>
-                  <AccordionTrigger>
-                    <h3 className="font-semibold text-xl">Page {page}</h3>
-                  </AccordionTrigger>
-
-                  <AccordionContent>
-                    <div className="space-y-6 mt-2">
-                      {displayedQuestions[parseInt(page.toString())].map(
-                        (item: any) => (
-                          <SingleQuestion
-                            key={item.index}
-                            question={item}
-                            index={item.index}
-                          />
-                        ),
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <QuestionListComp displayedQuestions={displayedQuestions} />
 
             {selected ? (
               <>

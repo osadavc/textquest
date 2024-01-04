@@ -16,7 +16,7 @@ const SingleQuestion: FC<SingleQuestion> = ({
   return (
     <div className="border px-5 py-8 rounded-md">
       <h2 className="font-bold text-xl ml-2">
-        {index + 1}. {question.question}
+        {index}. {question.question}
       </h2>
 
       <div className="mt-4 space-y-3">
