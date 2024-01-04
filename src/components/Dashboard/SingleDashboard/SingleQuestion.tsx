@@ -4,20 +4,14 @@ import { Question } from "@prisma/client";
 
 interface SingleQuestion {
   question: { question: Question };
-  index: number;
 }
 
-const SingleQuestion: FC<SingleQuestion> = ({
-  question: { question },
-  index,
-}) => {
+const SingleQuestion: FC<SingleQuestion> = ({ question: { question } }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   return (
     <div className="border px-5 py-8 rounded-md">
-      <h2 className="font-bold text-xl ml-2">
-        {index}. {question.question}
-      </h2>
+      <h2 className="font-bold text-xl ml-2">{question.question}</h2>
 
       <div className="mt-4 space-y-3">
         {question.mcqAnswers.map((item, index) => (

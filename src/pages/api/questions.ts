@@ -49,6 +49,19 @@ router.post(async (req, res) => {
     throw new Error("No textbook found");
   }
 
+  const samePageQuestions = (
+    await prisma.question.findMany({
+      where: {
+        pageNumber,
+        textbookId: bookId,
+      },
+    })
+  )
+    .map((item) => item.question)
+    .join(", ");
+
+  console.log(samePageQuestions);
+
   const pageContent = await pdf.getText(textbook.fileURL, pageNumber);
 
   await mindsdbConnect();
@@ -59,6 +72,7 @@ router.post(async (req, res) => {
       `page_content = "${pageContent}"`,
       `question_amount = "${numberOfQuestions}"`,
       `question_type = "${questionType}"`,
+      `ignore_questions = "${samePageQuestions}"`,
     ],
   };
 
@@ -68,8 +82,6 @@ router.post(async (req, res) => {
     ...item,
     answers: shuffleArray(item.answers),
   }));
-
-  console.log(questions);
 
   const result = await prisma.$transaction(
     questions.map((item: QuestionItem) =>

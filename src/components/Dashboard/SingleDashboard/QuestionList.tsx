@@ -35,11 +35,7 @@ const QuestionList: FC<QuestionList> = ({ displayedQuestions }) => {
             <div className="space-y-6 mt-2">
               {displayedQuestions[parseInt(page.toString())].map(
                 (item: any) => (
-                  <SingleQuestion
-                    key={item.index}
-                    question={item}
-                    index={item.index}
-                  />
+                  <SingleQuestion key={item.index} question={item} />
                 ),
               )}
             </div>
