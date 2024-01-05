@@ -1,6 +1,7 @@
 import { FC, useMemo, useState } from "react";
 
 import { Question } from "@prisma/client";
+import axios from "axios";
 
 import SingleQuestion from "@/components/Dashboard/SingleDashboard/SingleQuestion";
 import {
@@ -66,6 +67,14 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
     [displayedQuestions, page],
   );
 
+  const checkAnswers = async () => {
+    const { data } = await axios.post("/api/answers", {
+      pageAnswers,
+    });
+
+    console.log(data);
+  };
+
   return (
     <AccordionItem value={page}>
       <AccordionTrigger className="flex">
@@ -92,7 +101,7 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
           ))}
 
           {unAnsweredQuestions === Object.values(pageAnswers).length && (
-            <Button variant="outline" className="mb-4">
+            <Button variant="outline" className="mb-4" onClick={checkAnswers}>
               Check Answers
             </Button>
           )}

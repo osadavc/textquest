@@ -20,19 +20,35 @@ const SingleQuestion: FC<SingleQuestion> = ({
       <h2 className="font-bold text-xl ml-2">{question.question}</h2>
 
       <div className="mt-4 space-y-3">
-        {question.mcqAnswers.map((item, index) => (
-          <h3
-            key={index}
-            className={`border px-4 py-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors ${
-              pageAnswers[question.id] === index && "bg-gray-100"
-            }`}
-            onClick={() => {
-              selectAnswer(question.id, index);
-            }}
-          >
-            {item}
-          </h3>
-        ))}
+        {question.mcqAnswers.map((item, index) => {
+          const selectedCorrectAnswer =
+            question.correctMCQAnswerIndex === index;
+
+          const locallySelectedAnswer = pageAnswers[question.id] === index;
+
+          const wrongAnswer =
+            question.correctMCQAnswerIndex != question.userMCQAnswerIndex &&
+            index == question.userMCQAnswerIndex;
+
+          return (
+            <h3
+              key={index}
+              className={`border px-4 py-4 rounded-md ${
+                question.userMCQAnswerIndex == null &&
+                "hover:bg-gray-100 cursor-pointer"
+              } transition-colors ${locallySelectedAnswer && "bg-gray-100"} ${
+                selectedCorrectAnswer && "border-2 border-green-400"
+              } ${wrongAnswer && "border-2 border-red-400"}`}
+              onClick={() => {
+                if (question.userMCQAnswerIndex == null) {
+                  selectAnswer(question.id, index);
+                }
+              }}
+            >
+              {item}
+            </h3>
+          );
+        })}
       </div>
     </div>
   );
