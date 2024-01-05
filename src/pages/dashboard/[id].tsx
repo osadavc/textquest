@@ -62,6 +62,10 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
 
   useEffect(() => {
     if (bookId === textbook.id) {
+      if (questions.length === 0) {
+        return setDisplayedQuestions({});
+      }
+
       const groupedQuestions = questions.reduce(
         (group: any, question, index) => {
           if (!!group.id) {

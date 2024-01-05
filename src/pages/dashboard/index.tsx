@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import { NextPage } from "next";
 import { useEffect } from "react";
 
-import { Textbook } from "@prisma/client";
+import { Question, Textbook } from "@prisma/client";
 import { getSession } from "next-auth/react";
 
 import Header from "@/components/Common/Header";
@@ -16,7 +16,9 @@ import useTextbookStore from "@/stores/textbookStore";
 
 interface Dashboard {
   user: {
-    textbooks: Textbook[];
+    textbooks: (Textbook & {
+      questions: Question[];
+    })[];
   };
 }
 
@@ -65,7 +67,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       id: session.id,
     },
     include: {
-      textbooks: true,
+      textbooks: {
+        include: {
+          questions: true,
+        },
+      },
     },
   });
 
