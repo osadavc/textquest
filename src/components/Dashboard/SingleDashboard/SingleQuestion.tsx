@@ -4,11 +4,17 @@ import { Question } from "@prisma/client";
 
 interface SingleQuestion {
   question: { question: Question };
+  selectAnswer: (questions: string, answer: number) => void;
+  pageAnswers: {
+    [questionId: string]: number;
+  };
 }
 
-const SingleQuestion: FC<SingleQuestion> = ({ question: { question } }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-
+const SingleQuestion: FC<SingleQuestion> = ({
+  question: { question },
+  selectAnswer,
+  pageAnswers,
+}) => {
   return (
     <div className="border px-5 py-8 rounded-md">
       <h2 className="font-bold text-xl ml-2">{question.question}</h2>
@@ -18,10 +24,10 @@ const SingleQuestion: FC<SingleQuestion> = ({ question: { question } }) => {
           <h3
             key={index}
             className={`border px-4 py-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors ${
-              selectedAnswer == index && "bg-gray-100"
+              pageAnswers[question.id] === index && "bg-gray-100"
             }`}
             onClick={() => {
-              setSelectedAnswer(index);
+              selectAnswer(question.id, index);
             }}
           >
             {item}
