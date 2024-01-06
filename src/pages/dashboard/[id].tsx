@@ -75,7 +75,7 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
           const { pageNumber } = question;
 
           group[pageNumber] = group[pageNumber] ?? [];
-          group[pageNumber].push({ index, question });
+          group[pageNumber].push(question);
 
           return group;
         },

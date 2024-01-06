@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Question } from "@prisma/client";
 
 interface SingleQuestion {
-  question: { question: Question };
+  question: Question;
   selectAnswer: (questions: string, answer: number) => void;
   pageAnswers: {
     [questionId: string]: number;
@@ -11,7 +11,7 @@ interface SingleQuestion {
 }
 
 const SingleQuestion: FC<SingleQuestion> = ({
-  question: { question },
+  question,
   selectAnswer,
   pageAnswers,
 }) => {

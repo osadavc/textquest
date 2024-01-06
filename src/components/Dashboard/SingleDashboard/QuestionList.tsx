@@ -20,18 +20,33 @@ interface QuestionList {
 }
 
 interface QuestionListExp {
-  [pageNumber: number]: {
-    index: number;
-    question: Question;
-  }[];
+  [pageNumber: number]: Question[];
 }
 
 const QuestionList: FC<QuestionList> = ({ displayedQuestions }) => {
+  const openedAccordionItem = useMemo(() => {
+    const unAnsweredPages: string[] = [];
+
+    Object.entries(displayedQuestions).forEach(
+      ([page, questions]: [string, Question[]]) => {
+        const unAnsweredQuestions = questions.filter(
+          (item) => item.userMCQAnswerIndex === null,
+        ).length;
+
+        if (unAnsweredQuestions > 0) {
+          unAnsweredPages.push(page);
+        }
+      },
+    );
+
+    return unAnsweredPages;
+  }, [displayedQuestions]);
+
   return (
     <Accordion
       type="multiple"
       className="space-y-6 my-10"
-      defaultValue={[Object.keys(displayedQuestions)[0]]}
+      defaultValue={openedAccordionItem}
     >
       {Object.keys(displayedQuestions).map((page: string) => (
         <SinglePageQuestions
@@ -70,7 +85,7 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
   const unAnsweredQuestions = useMemo(
     () =>
       displayedQuestions[parseInt(page.toString())].filter(
-        (item) => item.question.userMCQAnswerIndex === null,
+        (item) => item.userMCQAnswerIndex === null,
       ).length,
     [displayedQuestions, page],
   );
