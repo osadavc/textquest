@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import { Question } from "@prisma/client";
 
@@ -22,7 +22,8 @@ const SingleQuestion: FC<SingleQuestion> = ({
       <div className="mt-4 space-y-3">
         {question.mcqAnswers.map((item, index) => {
           const selectedCorrectAnswer =
-            question.correctMCQAnswerIndex === index;
+            question.correctMCQAnswerIndex === index &&
+            question.userMCQAnswerIndex != null;
 
           const locallySelectedAnswer = pageAnswers[question.id] === index;
 

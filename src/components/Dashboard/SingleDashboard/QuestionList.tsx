@@ -13,12 +13,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
+import useQuestionStore from "@/stores/questionsStore";
+
 interface QuestionList {
   displayedQuestions: QuestionListExp;
 }
 
 interface QuestionListExp {
-  [pageNumber: number]: Question[];
+  [pageNumber: number]: {
+    index: number;
+    question: Question;
+  }[];
 }
 
 const QuestionList: FC<QuestionList> = ({ displayedQuestions }) => {
@@ -48,9 +53,12 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
   page,
   displayedQuestions,
 }) => {
+  const { updateAnswers } = useQuestionStore();
+
   const [pageAnswers, setPageAnswers] = useState<{
     [questionId: string]: number;
   }>({});
+  const [loading, setLoading] = useState(false);
 
   const selectAnswer = (question: string, answer: number) => {
     setPageAnswers((prev) => ({
@@ -62,17 +70,22 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
   const unAnsweredQuestions = useMemo(
     () =>
       displayedQuestions[parseInt(page.toString())].filter(
-        (item) => !item.userMCQAnswerIndex,
+        (item) => item.question.userMCQAnswerIndex === null,
       ).length,
     [displayedQuestions, page],
   );
 
   const checkAnswers = async () => {
-    const { data } = await axios.post("/api/answers", {
+    setLoading(true);
+    const {
+      data: { response },
+    } = await axios.post("/api/answers", {
       pageAnswers,
     });
 
-    console.log(data);
+    updateAnswers(response);
+    setPageAnswers({});
+    setLoading(false);
   };
 
   return (
@@ -100,11 +113,17 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
             />
           ))}
 
-          {unAnsweredQuestions === Object.values(pageAnswers).length && (
-            <Button variant="outline" className="mb-4" onClick={checkAnswers}>
-              Check Answers
-            </Button>
-          )}
+          {unAnsweredQuestions === Object.values(pageAnswers).length &&
+            unAnsweredQuestions > 0 && (
+              <Button
+                variant="outline"
+                className="mb-4"
+                onClick={checkAnswers}
+                disabled={loading}
+              >
+                {loading ? "Checking Answers..." : "Check Answers"}
+              </Button>
+            )}
         </div>
       </AccordionContent>
     </AccordionItem>

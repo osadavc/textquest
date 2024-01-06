@@ -6,6 +6,7 @@ interface useQuestionsStore {
   questions: Question[];
   replaceQuestions: (bookId: string, questions: Question[]) => void;
   addNewQuestions: (bookId: string, questions: Question[]) => void;
+  updateAnswers: (updatedQuestions: Question[]) => void;
 }
 
 const useQuestionStore = create<useQuestionsStore>((set) => ({
@@ -20,6 +21,17 @@ const useQuestionStore = create<useQuestionsStore>((set) => ({
     set((state) => ({
       questions: [...state.questions, ...questions],
       bookId,
+    }));
+  },
+  updateAnswers: (updatedQuestions) => {
+    set((state) => ({
+      questions: state.questions.map((item) => {
+        const updatedQuestion = updatedQuestions.find(
+          (updatedQuestionId) => updatedQuestionId.id === item.id,
+        );
+
+        return updatedQuestion ?? item;
+      }),
     }));
   },
 }));
