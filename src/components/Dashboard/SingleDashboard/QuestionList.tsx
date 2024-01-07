@@ -119,9 +119,9 @@ const SinglePageQuestions: FC<SinglePageQuestions> = ({
 
       <AccordionContent>
         <div className="space-y-6 mt-2">
-          {displayedQuestions[parseInt(page.toString())].map((item: any) => (
+          {displayedQuestions[parseInt(page.toString())].map((item) => (
             <SingleQuestion
-              key={item.index}
+              key={item.id}
               question={item}
               selectAnswer={selectAnswer}
               pageAnswers={pageAnswers}
