@@ -60,7 +60,12 @@ router.post(async (req, res) => {
     .map((item) => item.question)
     .join(", ");
 
-  const pageContent = await pdf.getText(textbook.fileURL, pageNumber);
+  const pageContent: string = await pdf.getText(textbook.fileURL, pageNumber);
+
+  if (pageContent.length < 10) {
+    // TODO: Handle in the frontend
+    throw new Error("Too little content");
+  }
 
   await mindsdbConnect();
   const model = await MindsDB.Models.getModel("question_generator", "mindsdb");

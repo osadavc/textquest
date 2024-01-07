@@ -79,7 +79,9 @@ const TopBar = () => {
               Upload New Textbook
             </DialogTitle>
             <DialogDescription>
-              Upload a new textbook to start testing your knowledge
+              Upload a new textbook to start testing your knowledge. Make sure
+              to upload a pdf with text (pdf with a text content which is not
+              scanned)
             </DialogDescription>
           </DialogHeader>
 
