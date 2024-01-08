@@ -23,8 +23,12 @@ interface GenerateQuestion {
 
 const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
-  const [questionType, setQuestionType] = useState("mcq");
+  const [questionType] = useState("mcq");
   const [loading, setLoading] = useState(false);
+  const [exceptions, setExceptions] = useState({
+    knowledge: true,
+    diagrams: false,
+  });
 
   const { addNewQuestions } = useQuestionStore();
 
@@ -125,14 +129,32 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
               {/* TODO: Hook this up */}
 
               <div className="flex items-center mt-5 space-x-3">
-                <Checkbox id="knowledge" />
+                <Checkbox
+                  id="knowledge"
+                  checked={exceptions.knowledge}
+                  onCheckedChange={(state) => {
+                    setExceptions((prev) => ({
+                      ...prev,
+                      knowledge: !!state,
+                    }));
+                  }}
+                />
                 <label htmlFor="knowledge" className="text-sm leading-none">
                   For more knowledge
                 </label>
               </div>
 
               <div className="flex items-center mt-5 space-x-3">
-                <Checkbox id="diagrams" />
+                <Checkbox
+                  id="diagrams"
+                  checked={exceptions.diagrams}
+                  onCheckedChange={(state) => {
+                    setExceptions((prev) => ({
+                      ...prev,
+                      diagrams: !!state,
+                    }));
+                  }}
+                />
                 <label htmlFor="diagrams" className="text-sm leading-none">
                   Diagrams
                 </label>
