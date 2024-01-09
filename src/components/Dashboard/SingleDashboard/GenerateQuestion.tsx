@@ -26,7 +26,7 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
   const [questionType] = useState("mcq");
   const [loading, setLoading] = useState(false);
   const [exceptions, setExceptions] = useState({
-    knowledge: true,
+    knowledge: false,
     diagrams: false,
   });
 
@@ -39,6 +39,7 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
       numberOfQuestions,
       bookId,
       pageNumber,
+      exceptions,
     });
 
     addNewQuestions(bookId, data.response);
@@ -125,8 +126,6 @@ const GenerateQuestion: FC<GenerateQuestion> = ({ bookId, pageNumber }) => {
                 If certain textbook sections should be omitted from question
                 creation, please select them.
               </p>
-
-              {/* TODO: Hook this up */}
 
               <div className="flex items-center mt-5 space-x-3">
                 <Checkbox

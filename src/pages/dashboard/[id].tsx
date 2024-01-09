@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { Question, Textbook } from "@prisma/client";
+import groupBy from "lodash.groupby";
 import { getSession } from "next-auth/react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 
@@ -66,20 +67,12 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         return setDisplayedQuestions({});
       }
 
-      const groupedQuestions = questions.reduce(
-        (group: any, question, index) => {
-          if (!!group.id) {
-            group = {};
-          }
-
-          const { pageNumber } = question;
-
-          group[pageNumber] = group[pageNumber] ?? [];
-          group[pageNumber].push(question);
-
-          return group;
-        },
+      const groupedQuestions = groupBy(
+        questions,
+        (questions) => questions.pageNumber,
       );
+
+      console.log(groupedQuestions);
 
       setDisplayedQuestions(groupedQuestions);
     }

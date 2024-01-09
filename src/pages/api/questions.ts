@@ -26,7 +26,8 @@ interface QuestionItem {
 }
 
 router.post(async (req, res) => {
-  const { questionType, numberOfQuestions, bookId, pageNumber } = req.body;
+  const { questionType, numberOfQuestions, bookId, pageNumber, exceptions } =
+    req.body;
 
   if (numberOfQuestions > 10 || numberOfQuestions < 2) {
     throw new Error("Question amount is invalid or not supported yet");
@@ -35,6 +36,8 @@ router.post(async (req, res) => {
   if (questionType != "mcq") {
     throw new Error("Question type is not supported yet");
   }
+
+  const processedExceptions = constructExceptions(exceptions);
 
   const textbook = await prisma.textbook.findUnique({
     where: {
@@ -76,6 +79,7 @@ router.post(async (req, res) => {
       `question_amount = "${numberOfQuestions}"`,
       `question_type = "${questionType}"`,
       `ignore_questions = "${samePageQuestions}"`,
+      `exceptions = "${processedExceptions}"`,
     ],
   };
 
@@ -83,7 +87,11 @@ router.post(async (req, res) => {
     (await model?.query(queryOptions))?.value.toString() ?? "",
   ).questions.map((item: QuestionItem) => ({
     ...item,
-    answers: shuffleArray(item.answers),
+    // To support answers like all of the above
+    answers: [
+      ...shuffleArray(item.answers.slice(0, 3)),
+      ...item.answers.slice(3, 4),
+    ],
   }));
 
   const result = await prisma.$transaction(
@@ -107,6 +115,14 @@ router.post(async (req, res) => {
     response: result,
   });
 });
+
+const constructExceptions = (obj: { knowledge: boolean; diagram: boolean }) => {
+  return `${
+    obj.knowledge
+      ? "For more information, for additional knowledge, extra knowledge"
+      : ""
+  } ${obj.diagram ? ", Figures, diagrams, images" : ""}`;
+};
 
 export default router.handler({
   onError,

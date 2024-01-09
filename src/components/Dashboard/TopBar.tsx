@@ -41,7 +41,7 @@ const TopBar = () => {
         fileURL: file.url,
       });
 
-      addNewTextbook(data);
+      addNewTextbook({ ...data, questions: [] });
 
       setFile({
         name: "",
