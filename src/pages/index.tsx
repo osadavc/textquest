@@ -14,7 +14,7 @@ const Home: NextPage<HomeProps> = ({ isLoggedIn }) => {
   return (
     <div>
       <Header isLoggedIn={isLoggedIn} />
-      <HeroSection />
+      <HeroSection isLoggedIn={isLoggedIn} />
     </div>
   );
 };

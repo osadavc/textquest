@@ -7,12 +7,12 @@ import { CiLogout } from "react-icons/ci";
 
 import { Button } from "@/components/ui/button";
 
-interface HomeProps {
+interface HeaderProps {
   isLoggedIn: boolean;
   isDashboard?: boolean;
 }
 
-const Header: FC<HomeProps> = ({ isLoggedIn, isDashboard }) => {
+const Header: FC<HeaderProps> = ({ isLoggedIn, isDashboard }) => {
   const router = useRouter();
 
   return (
