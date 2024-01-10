@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
 
 import { signIn } from "next-auth/react";
+import { FaP, FaPlay } from "react-icons/fa6";
 
 import { Button } from "../ui/button";
 
@@ -11,6 +12,9 @@ interface HeroSectionProps {
 
 const HeroSection: FC<HeroSectionProps> = ({ isLoggedIn }) => {
   const router = useRouter();
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto flex justify-center items-center h-full pt-28 flex-col">
@@ -39,10 +43,47 @@ const HeroSection: FC<HeroSectionProps> = ({ isLoggedIn }) => {
         Go to Dashboard
       </Button>
 
-      <video controls={false} className="border my-16 rounded-md" autoPlay loop>
-        <source src="/videos/demo.mp4" type="video/mp4" />
-        Your browser does not support the videos
-      </video>
+      <div className="my-16 relative aspect-video w-full">
+        <video
+          controls={false}
+          className="border absolute left-0 top-0 w-full h-full rounded-md"
+          ref={videoRef}
+          onEnded={() => {
+            if (videoRef.current) {
+              videoRef.current.currentTime = 0;
+              videoRef.current.pause();
+              setPlaying(false);
+            }
+          }}
+        >
+          <source src="/videos/demo.mp4" type="video/mp4" />
+          Your browser does not support the videos
+        </video>
+
+        {!playing && (
+          <div className="bg-customPrimary/20 absolute left-0 top-0 w-full h-full rounded-md z-10 flex justify-center items-center">
+            <FaPlay
+              className="cursor-pointer w-full h-[18%] text-blue-600"
+              onClick={() => {
+                setPlaying(true);
+                videoRef.current?.play();
+              }}
+            />
+          </div>
+        )}
+      </div>
+
+      <p className="my-16">
+        Made with ❤️ by{" "}
+        <a
+          href="https://github.com/osadavc"
+          target="_blank"
+          className="text-blue-600 font-bold"
+        >
+          Osada Vidath
+        </a>{" "}
+        for Hashnode X Mindsdb Hackathon
+      </p>
     </div>
   );
 };
