@@ -94,8 +94,6 @@ const SingleDashboardPage: NextPage<SingleDashboardPage> = ({ textbook }) => {
         <h3 className="font-bold text-2xl mt-5 whitespace-break-spaces break-words">
           {textbook.name}
         </h3>
-        {/* TODO: Fix the page count */}
-        {/* <p className="mt-2 text-lg">69 Pages</p> */}
 
         <Sheet open={open} onOpenChange={setOpen}>
           <div className="flex items-center">

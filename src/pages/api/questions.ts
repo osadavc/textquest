@@ -87,7 +87,7 @@ router.post(async (req, res) => {
     (await model?.query(queryOptions))?.value.toString() ?? "",
   ).questions.map((item: QuestionItem) => ({
     ...item,
-    // To support answers like all of the above
+    // To support answers like "all of the above"
     answers: [
       ...shuffleArray(item.answers.slice(0, 3)),
       ...item.answers.slice(3, 4),
