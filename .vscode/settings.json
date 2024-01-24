@@ -4,6 +4,7 @@
     "mindsdb",
     "NEXTAUTH",
     "nprogress",
+    "OPENAI",
     "sonner",
     "Uploadthing",
     "zustand"
